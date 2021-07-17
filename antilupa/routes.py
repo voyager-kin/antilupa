@@ -7,15 +7,14 @@ from flask_login import login_user, logout_user, login_required, current_user
 from datetime import date
 
 
-@app.route('/')
-@app.route('/home')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/home', methods=['GET', 'POST'])
 def home_page():
     search_form = PersonSearchForm()
-    user="none"
     if current_user.is_authenticated:
         return render_template('home.html', form=search_form)
     else:
-        return render_template('home.html',user=user)
+        return render_template('home.html')
 
 
 @app.route('/about')
@@ -29,11 +28,18 @@ def person_page():
     return render_template('person.html')
 
 
-@app.route('/remember', methods=['GET', 'POST'])
-@app.route('/remember/<name>', methods=['GET', 'POST'])
+@app.route('/new_record')
 @login_required
-def remember_page(name=None):
-    if request.method == "GET":
+def add_record_page():
+    return render_template('new_record.html')
+
+@app.route('/remember', methods=['GET', 'POST'])
+@login_required
+def remember_page():
+    if request.method == "POST":
+        print("post detected")
+        name = request.form.get('name')
+        print(name)
         if name:
             search = "%{}%".format(name)
             person = Person.query.filter(Person.name.like(search)).count()
@@ -51,6 +57,9 @@ def remember_page(name=None):
         # print(track_reactions)
         # items = Item.query.filter_by(owner=None)
         # owned_items = Item.query.filter_by(owner=current_user.id)
+        return redirect(url_for('home_page'))
+    else:
+        print("here")
         return redirect(url_for('home_page'))
 
 
@@ -77,6 +86,8 @@ def register_page():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
+    if current_user.is_authenticated:
+        return redirect(url_for('home_page'))
     form = LoginForm()
     if form.validate_on_submit():
         attempted_user = User.query.filter_by(username=form.username.data).first()
@@ -85,7 +96,7 @@ def login_page():
         ):
             login_user(attempted_user)
             flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
-            return redirect(url_for('remember_page'))
+            return redirect(url_for('home_page'))
         else:
             flash('Username and password are not match! Please try again', category='danger')
 

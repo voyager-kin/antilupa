@@ -24,7 +24,7 @@ class RegisterForm(FlaskForm):
 
 class PersonSearchForm(FlaskForm):
     name = StringField(label='Person to track:', validators=[Length(min=2, max=100), DataRequired()])
-
+    submit = SubmitField(label='Track')
 
 class LoginForm(FlaskForm):
     username = StringField(label='User Name:', validators=[DataRequired()])

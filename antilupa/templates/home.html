@@ -8,9 +8,17 @@
             <h1 class="display-4 font-weight-normal">Antilupa</h1>
             <p class="lead font-weight-normal">Online track record for everyone</p>
             {% if form: %}
-            show form
+            <form method="POST" class="form-signin" action="{{ url_for('remember_page') }}" style="color:white">
+            {{ form.hidden_tag() }}
+            <br>
+                {{ form.name(class="form-control", placeholder="John Lennon") }}
+
+
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+
+        </form>
             {% else: %}
-            <a class="btn btn-primary" href="{{ url_for('remember_page') }}">Get Started</a>
+            <a class="btn btn-primary" href="{{ url_for('login_page') }}">Get Started</a>
             {% endif %}
         </div>
         <div class="product-device box-shadow d-none d-md-block"></div>
