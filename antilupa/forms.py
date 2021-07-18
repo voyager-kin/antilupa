@@ -26,6 +26,20 @@ class PersonSearchForm(FlaskForm):
     name = StringField(label='Person to track:', validators=[Length(min=2, max=100), DataRequired()])
     submit = SubmitField(label='Track')
 
+
+class PersonForm(FlaskForm):
+    name = StringField(label='Person to track:', validators=[Length(min=2, max=100), DataRequired()])
+    submit = SubmitField(label='Track')
+
+
+class RecordForm(FlaskForm):
+    name = StringField(label='Topic or person :', validators=[Length(min=2, max=100), DataRequired()])
+    title = StringField(label='Record :', validators=[Length(min=2, max=200), DataRequired()])
+    date = StringField(label='Date :', validators=[Length(min=2, max=100), DataRequired()])
+    url = StringField(label='URL:', validators=[Length(min=2, max=100), DataRequired()])
+    submit = SubmitField(label='Add Record')
+
+
 class LoginForm(FlaskForm):
     username = StringField(label='User Name:', validators=[DataRequired()])
     password = PasswordField(label='Password:', validators=[DataRequired()])

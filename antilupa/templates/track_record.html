@@ -6,15 +6,15 @@ Antilupa | Track Record
 
 <div class="row" style="margin-top:20px; margin-left:20px; margin-right:20px">
    <div class="col-12">
-       <h2>Track Record for </h2>
+       <h2>Track Record for {{ name }}</h2>
        <br>
       <table class="table table-hover table-dark">
          <thead>
             <tr>
                <!-- Your Columns HERE -->
-               <th scope="col">Record</th>
-               <th scope="col">Source</th>
-               <th scope="col">Event Date</th>
+               <th scope="col" style="width:300px;">Record</th>
+               <th scope="col" style="width:100px;">Source</th>
+               <th scope="col" style="width:200px;">Event Date</th>
                <th scope="col">Reaction</th>
                <th scope="col">Truth Score</th>
                 <th scope="col">Options</th>
@@ -25,7 +25,9 @@ Antilupa | Track Record
             {% for record in track_records %}
             <tr>
                <td>{{ record.title }}</td>
-               <td>{{ record.url }}</td>
+               <td>
+                  {% set domain = fetch_domain(record.url) %}
+                  <a href="{{ record.url }}" target="_blank">{{ domain }}</a></td>
                <td>{{ record.date }}</td>
                <td>{{ record.reaction }}</td>
                 <td>{{ record.truth_score }}</td>

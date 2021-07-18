@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-    Register Page
+    Antilupa | New Record
 {% endblock %}
 
 {% block content %}
@@ -9,27 +9,22 @@
         <form method="POST" class="form-register" style="color:white">
             {{ form.hidden_tag() }}
             <h1 class="h3 mb-3 font-weight-normal">
-                Please Create your Account
+
             </h1>
             <br>
-            {{ form.username.label() }}
-            {{ form.username(class="form-control", placeholder="User Name") }}
+            {{ form.name.label() }}
+            {{ form.name(class="form-control", placeholder="Name or Topic e.g : John Lennon or Covid 19") }}
 
-            {{ form.email_address.label() }}
-            {{ form.email_address(class="form-control", placeholder="Email Address") }}
+            {{ form.title.label() }}
+            {{ form.title(class="form-control", placeholder="e.g John Lennon sent a disc to space") }}
 
-            {{ form.password1.label() }}
-            {{ form.password1(class="form-control", placeholder="Password") }}
+            {{ form.date.label() }}
+            {{ form.date(class="form-control", placeholder="YYYY-MM-DD e.g 1980-01-30") }}
 
-            {{ form.password2.label() }}
-            {{ form.password2(class="form-control", placeholder="Confirm Password") }}
+            {{ form.url.label() }}
+            {{ form.url(class="form-control", placeholder="e.g https://wikipedia.com") }}
 
             <br>
-
-            <div class="checkbox mb-3">
-               <h6>Already have an account?</h6>
-               <a class="btn btn-sm btn-secondary" href="{{ url_for('login_page') }}">Login</a>
-            </div>
 
             {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
 

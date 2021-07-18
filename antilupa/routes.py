@@ -1,10 +1,12 @@
 from antilupa import app
 from flask import render_template, redirect, url_for, flash, request
 from antilupa.models import Person, User, TrackReaction, TrackRecord
-from antilupa.forms import RegisterForm, LoginForm, PersonSearchForm
+from antilupa.forms import RegisterForm, LoginForm, PersonSearchForm, RecordForm
 from antilupa import db
 from flask_login import login_user, logout_user, login_required, current_user
 from datetime import date
+
+
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -22,6 +24,11 @@ def about_page():
     return render_template('about.html')
 
 
+@app.route('/donation')
+def donation_page():
+    return render_template('donation.html')
+
+
 @app.route('/person')
 @login_required
 def person_page():
@@ -31,15 +38,15 @@ def person_page():
 @app.route('/new_record')
 @login_required
 def add_record_page():
-    return render_template('new_record.html')
+    form = RecordForm()
+    return render_template('new_record.html', form=form)
+
 
 @app.route('/remember', methods=['GET', 'POST'])
 @login_required
 def remember_page():
     if request.method == "POST":
-        print("post detected")
         name = request.form.get('name')
-        print(name)
         if name:
             search = "%{}%".format(name)
             person = Person.query.filter(Person.name.like(search)).count()
@@ -49,11 +56,11 @@ def remember_page():
                 else:
                     person = Person.query.filter(Person.name.like(search)).first()
                     track_records = TrackRecord.query.filter_by(person_id=person.id)
-                    return render_template('track_record.html', track_records=track_records)
+                    return render_template('track_record.html', track_records=track_records, name=person.name)
 
             else:
-                flash(f'no record for { name }', category='success')
-                return redirect(url_for('home_page'))
+                flash(f'no record for { name }, you may add new record below', category='warning')
+                return redirect(url_for('add_record_page'))
         # print(track_reactions)
         # items = Item.query.filter_by(owner=None)
         # owned_items = Item.query.filter_by(owner=current_user.id)
