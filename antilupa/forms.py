@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, HiddenField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
-from antilupa.models import User
+from antilupa.models import User, Person, TrackRecordView
 
 
 class RegisterForm(FlaskForm):
@@ -33,10 +33,14 @@ class PersonForm(FlaskForm):
 
 
 class RecordForm(FlaskForm):
+
     name = StringField(label='Topic or person :', validators=[Length(min=2, max=100), DataRequired()])
+    person_id = StringField(label='Topic or person :', validators=[Length(min=0, max=100)])
+    user_id = StringField(label='User id :', validators=[Length(min=0, max=100)])
     title = StringField(label='Record :', validators=[Length(min=2, max=200), DataRequired()])
     date = StringField(label='Date :', validators=[Length(min=2, max=100), DataRequired()])
-    url = StringField(label='URL:', validators=[Length(min=2, max=100), DataRequired()])
+    url = StringField(label='URL :', validators=[Length(min=2, max=100), DataRequired()])
+    tag = StringField(label='Tag - maximum of 5 tags separated by comma :', validators=[Length(min=0, max=100)])
     submit = SubmitField(label='Add Record')
 
 

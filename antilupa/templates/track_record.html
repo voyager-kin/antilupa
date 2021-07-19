@@ -12,27 +12,24 @@ Antilupa | Track Record
          <thead>
             <tr>
                <!-- Your Columns HERE -->
-               <th scope="col" style="width:300px;">Record</th>
-               <th scope="col" style="width:100px;">Source</th>
-               <th scope="col" style="width:200px;">Event Date</th>
+               <th scope="col" >Record</th>
+               <th scope="col" >Source</th>
+
                <th scope="col">Reaction</th>
-               <th scope="col">Truth Score</th>
-                <th scope="col">Options</th>
             </tr>
          </thead>
          <tbody>
             <!-- Your rows inside the table HERE: -->
             {% for record in track_records %}
             <tr>
-               <td>{{ record.title }}</td>
+               <td>{{ record.date }}<br>{{ record.title }}</td>
                <td>
                   {% set domain = fetch_domain(record.url) %}
-                  <a href="{{ record.url }}" target="_blank">{{ domain }}</a></td>
-               <td>{{ record.date }}</td>
+                  <a href="{{ record.url }}" target="_blank">{{ domain }}</a><br><br>
+               truth score : {{ record.truth_score }}</td>
+
                <td>{{ record.reaction }}</td>
-                <td>{{ record.truth_score }}</td>
-               <td>
-                                 </td>
+
             </tr>
             {% endfor %}
          </tbody>

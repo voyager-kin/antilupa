@@ -6,7 +6,7 @@
 {% block content %}
 <body class="text-center">
     <div class="container">
-        <form method="POST" class="form-register" style="color:white">
+        <form method="POST" action="{{ url_for('add_record_page') }}" class="form-register" style="color:white">
             {{ form.hidden_tag() }}
             <h1 class="h3 mb-3 font-weight-normal">
 
@@ -16,18 +16,21 @@
             {{ form.name(class="form-control", placeholder="Name or Topic e.g : John Lennon or Covid 19") }}
 
             {{ form.title.label() }}
-            {{ form.title(class="form-control", placeholder="e.g John Lennon sent a disc to space") }}
+            {{ form.title(class="form-control", placeholder="e.g : John Lennon sent a disc to space") }}
 
             {{ form.date.label() }}
-            {{ form.date(class="form-control", placeholder="YYYY-MM-DD e.g 1980-01-30") }}
+            {{ form.date(class="form-control", placeholder="YYYY-MM-DD e.g : 1980-01-30") }}
+
+            {{ form.tag.label() }}
+            {{ form.tag(class="form-control", placeholder="e.g : statement, janji, pencapaian, korupsi, prestasi") }}
 
             {{ form.url.label() }}
-            {{ form.url(class="form-control", placeholder="e.g https://wikipedia.com") }}
+            {{ form.url(class="form-control", placeholder="e.g : https://wikipedia.com") }}
 
             <br>
 
-            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
-
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}<br>
+             <a class="btn btn-sm btn-secondary" href="{{ url_for('home_page') }}">Back</a>
         </form>
     </div>
 </body>

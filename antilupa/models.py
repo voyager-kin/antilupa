@@ -44,12 +44,14 @@ class Person(db.Model):
     name = db.Column(db.String(length=100), nullable=False)
     photo = db.Column(db.String(length=200), nullable=False)
     user_id = db.Column(db.Integer())
+    added_date = db.Column(db.DateTime(timezone=True))
 
 
-class TrackRecord(db.Model, UserMixin):
+class TrackRecordView(db.Model, UserMixin):
     __tablename__ = 'track_record_view'
     id = db.Column(db.Integer(), primary_key=True)
     person_id = db.Column(db.Integer())
+    user_id = db.Column(db.Integer())
     record = db.Column(db.String(length=2000))
     title = db.Column(db.String(length=200))
     url = db.Column(db.String(length=200))
@@ -57,3 +59,12 @@ class TrackRecord(db.Model, UserMixin):
     reaction = db.Column(db.String(length=200), nullable=False)
     truth_score = db.Column(db.Integer())
 
+class TrackRecord(db.Model, UserMixin):
+    __tablename__ = 'track_record'
+    id = db.Column(db.Integer(), primary_key=True)
+    person_id = db.Column(db.Integer())
+    user_id = db.Column(db.Integer())
+    record = db.Column(db.String(length=2000))
+    title = db.Column(db.String(length=200))
+    url = db.Column(db.String(length=200))
+    date = db.Column(db.DateTime(timezone=True))
