@@ -5,6 +5,7 @@ from antilupa.forms import RegisterForm, LoginForm, PersonSearchForm, RecordForm
 from antilupa import db
 from flask_login import login_user, logout_user, login_required, current_user
 from datetime import date
+from werkzeug.utils import secure_filename
 
 
 
@@ -53,7 +54,11 @@ def add_record_page():
                     flash(f'Name already exist, please try different unique name', category='danger')
                     return render_template('new_record.html', form=form)
                 else:
-                    person_to_create = Person(name=form.name.data, user_id=current_user.id, added_date=date.today())
+                    print(form.photo.data)
+                    photo = secure_filename(form.photo.data.filename)
+                    form.photo.data.save('photos/' + photo)
+                    person_to_create = Person(name=form.name.data,
+                                              user_id=current_user.id, added_date=date.today(), photo=photo)
                     db.session.add(person_to_create)
                     db.session.flush()
                     db.session.refresh(person_to_create)
@@ -85,37 +90,26 @@ def add_record_page():
 def remember_page(name=None):
     if request.method == "POST":
         name = request.form.get('name')
-        if name:
-            search = "%{}%".format(name)
-            person = Person.query.filter(Person.name.like(search)).count()
-            if person:
-                if person > 1:
-                    return redirect(url_for('person_page'))
-                else:
-                    person = Person.query.filter(Person.name.like(search)).first()
-                    track_records = TrackRecordView.query.filter_by(person_id=person.id)
-                    return render_template('track_record.html', track_records=track_records, name=person.name)
-
-            else:
-                flash(f'no record for { name }, you may add new record below', category='warning')
-                return redirect(url_for('add_record_page'))
-        # print(track_reactions)
-        # items = Item.query.filter_by(owner=None)
-        # owned_items = Item.query.filter_by(owner=current_user.id)
-        return redirect(url_for('home_page'))
     else:
+        name = name
         if name:
             search = "%{}%".format(name)
-            person = Person.query.filter(Person.name.like(search)).count()
+            person = Person.query.filter_by(name=name).count()
             if person:
-                if person > 1:
-                    return redirect(url_for('person_page'))
-                else:
+                if person > 0:
                     person = Person.query.filter(Person.name.like(search)).first()
                     track_records = TrackRecordView.query.filter_by(person_id=person.id)
                     return render_template('track_record.html', track_records=track_records, name=person.name)
-
             else:
+                person = Person.query.filter(Person.name.like(search)).count()
+                if person:
+                    if person > 1:
+                        return redirect(url_for('person_page'))
+                    else:
+                        person = Person.query.filter(Person.name.like(search)).first()
+                        track_records = TrackRecordView.query.filter_by(person_id=person.id)
+                        return render_template('track_record.html', track_records=track_records, name=person.name)
+
                 flash(f'no record for {name}, you may add new record below', category='warning')
                 return redirect(url_for('add_record_page'))
         # print(track_reactions)

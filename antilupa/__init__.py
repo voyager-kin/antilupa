@@ -8,7 +8,7 @@ from flask_wtf.csrf import CSRFProtect
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mariadb://root:password@localhost:3306/antilupa'
 app.config['SECRET_KEY'] = 'ec9439cfc6c796ae2029594d'
-app.config['UPLOAD_FOLDER'] = 'D:/Dev/Antilupa/photos'
+
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)

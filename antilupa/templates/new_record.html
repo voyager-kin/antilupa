@@ -6,7 +6,7 @@
 {% block content %}
 <body class="text-center">
     <div class="container">
-        <form method="POST" action="{{ url_for('add_record_page') }}" class="form-register" style="color:white">
+        <form method="POST" action="{{ url_for('add_record_page') }}" class="form-register" style="color:white" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <h1 class="h3 mb-3 font-weight-normal">
 
@@ -14,6 +14,9 @@
             <br>
             {{ form.name.label() }}
             {{ form.name(class="form-control", placeholder="Name or Topic e.g : John Lennon or Covid 19") }}
+
+            {{ form.photo.label() }}
+            {{ form.photo(class="form-control", placeholder="Upload image") }}
 
             {{ form.title.label() }}
             {{ form.title(class="form-control", placeholder="e.g : John Lennon sent a disc to space") }}

@@ -2,7 +2,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, HiddenField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
 from antilupa.models import User, Person, TrackRecordView
-
+from wtforms import StringField, BooleanField, FileField, SubmitField
+from flask_wtf.file import FileField, FileRequired
+from werkzeug.utils import secure_filename
 
 class RegisterForm(FlaskForm):
     def validate_username(self, username_to_check):
@@ -29,12 +31,13 @@ class PersonSearchForm(FlaskForm):
 
 class PersonForm(FlaskForm):
     name = StringField(label='Person to track:', validators=[Length(min=2, max=100), DataRequired()])
+
     submit = SubmitField(label='Track')
 
 
 class RecordForm(FlaskForm):
-
     name = StringField(label='Topic or person :', validators=[Length(min=2, max=100), DataRequired()])
+    photo = FileField(label='Photo :')  # IMAGE
     person_id = StringField(label='Topic or person :', validators=[Length(min=0, max=100)])
     user_id = StringField(label='User id :', validators=[Length(min=0, max=100)])
     title = StringField(label='Record :', validators=[Length(min=2, max=200), DataRequired()])
